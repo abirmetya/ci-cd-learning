@@ -1,3 +1,5 @@
+[![Python CI](https://github.com/abirmetya/ci-cd-learning/actions/workflows/ci.yml/badge.svg)](https://github.com/abirmetya/ci-cd-learning/actions/workflows/ci.yml)
+
 # CI/CD Learning Project
 
 A small Python project for learning CI/CD with GitHub Actions.
