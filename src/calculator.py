@@ -1,6 +1,6 @@
 def add(first_number: float, second_number: float) -> float:
     """Return the sum of two numbers."""
-    return first_number - second_number
+    return first_number + second_number
 
 
 def divide(first_number: float, second_number: float) -> float:
