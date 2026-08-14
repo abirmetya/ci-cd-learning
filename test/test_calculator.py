@@ -1,6 +1,6 @@
 import pytest
 
-from src.calculator import add, divide
+from src.calculator import add, divide, multiply
 
 
 def test_add():
@@ -9,6 +9,10 @@ def test_add():
 
 def test_divide():
     assert divide(10, 2) == 5
+
+
+def test_multiply():
+    assert multiply(2, 3) == 6
 
 
 def test_divide_by_zero():
