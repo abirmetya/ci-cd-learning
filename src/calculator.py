@@ -9,3 +9,8 @@ def divide(first_number: float, second_number: float) -> float:
         raise ValueError("Cannot divide by zero")
 
     return first_number / second_number
+
+
+def multiply(first_number: float, second_number: float) -> float:
+    """Multiply two numbers."""
+    return first_number * second_number
