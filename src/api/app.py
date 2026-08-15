@@ -1,6 +1,6 @@
 from functools import lru_cache
 from pathlib import Path
-from typing import Any
+from typing import Annotated, Any
 
 import joblib
 from fastapi import Depends, FastAPI
@@ -41,7 +41,7 @@ def health_check() -> dict[str, str]:
 @app.post("/predict", response_model=PredictionResponse)
 def predict(
     request: PredictionRequest,
-    model: Any = Depends(get_model),
+    model: Annotated[Any, Depends(get_model)],
 ) -> PredictionResponse:
     features = [
         request.sepal_length,
