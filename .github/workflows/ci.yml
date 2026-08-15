@@ -13,6 +13,9 @@ jobs:
     name: Run automated tests
     runs-on: ubuntu-latest
 
+    env:
+      PYTHONPATH: ${{ github.workspace }}/src
+
     steps:
       - name: Download repository code
         uses: actions/checkout@v7
