@@ -40,3 +40,40 @@ jobs:
 
       - name: Run tests
         run: python -m pytest -v
+
+    docker:
+      name: Build and smoke-test Docker image
+      needs: test
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Download repository code
+          uses: actions/checkout@v7
+
+        - name: Build Docker image
+          run: docker build -t iris-api:ci .
+
+        - name: Start Docker container
+          run: |
+            docker run -d \
+              --name iris-api-test \
+              -p 8000:8000 \
+              iris-api:ci
+
+        - name: Test health endpoint
+          run: |
+            for attempt in {1..10}; do
+              if curl --fail http://127.0.0.1:8000/health; then
+                exit 0
+              fi
+
+              echo "Waiting for API to start..."
+              sleep 2
+            done
+
+            docker logs iris-api-test
+            exit 1
+
+        - name: Remove test container
+          if: always()
+          run: docker rm -f iris-api-test
