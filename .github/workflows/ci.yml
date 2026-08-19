@@ -1,5 +1,9 @@
 name: Python CI
 
+permissions:
+  contents: read
+  packages: write
+
 on:
   push:
     branches:
@@ -77,3 +81,39 @@ jobs:
       - name: Remove test container
         if: always()
         run: docker rm -f iris-api-test
+
+  publish:
+    name: Publish Docker image
+    needs: docker
+
+    if: >
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main'
+
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: ghcr.io/abirmetya/iris-api
+
+    steps:
+      - name: Download repository code
+        uses: actions/checkout@v7
+
+      - name: Log in to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" |
+          docker login ghcr.io \
+            --username "${{ github.actor }}" \
+            --password-stdin
+
+      - name: Build versioned Docker image
+        run: |
+          docker build \
+            --tag "$IMAGE_NAME:${{ github.sha }}" \
+            --tag "$IMAGE_NAME:latest" \
+            .
+
+      - name: Publish Docker image
+        run: |
+          docker push "$IMAGE_NAME:${{ github.sha }}"
+          docker push "$IMAGE_NAME:latest"
