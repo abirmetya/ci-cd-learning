@@ -9,12 +9,12 @@ from pydantic import BaseModel, Field
 
 from ml_project.model import predict_species
 
-#MODEL_PATH = Path("model_artifacts/iris_model.joblib")
+# MODEL_PATH = Path("model_artifacts/iris_model.joblib")
 MODEL_PATH = Path(
     os.getenv(
         "MODEL_PATH",
         "model_artifacts/iris_model.joblib",
-    )                                                   #### The environment variable will allow us to change the model location later, for example when using AWS S3.
+    )  #### The environment variable will allow us to change the model location later, for example when using AWS S3.
 )
 
 app = FastAPI(
